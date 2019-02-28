@@ -23,9 +23,9 @@ class Photo:
         return self.n_tags
 
     def get_interest(self, second_photo):
-        n_tags_first = len(self.get_num_tags())
-        n_tags_second = len(second_photo.get_num_tags())
-        n_tags_intersection = len([value for value in self.tags if value in second_photo.tags()])
+        n_tags_first = self.get_num_tags()
+        n_tags_second = second_photo.get_num_tags()
+        n_tags_intersection = len([value for value in self.tags if value in second_photo.tags])
         return min(n_tags_first, n_tags_second, n_tags_intersection)        
     
 class Slide:
@@ -86,9 +86,3 @@ class Input:
     
     def get_photos(self):
         return self.photos
-
-inputs = Input('b_lovely_landscapes.txt')
-slideshow = Slideshow()
-for photo in inputs.get_photos():
-    slideshow.add_slide(Slide([photo]))
-slideshow.write_solution('test.txt')
