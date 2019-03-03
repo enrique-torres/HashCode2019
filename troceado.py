@@ -1,5 +1,3 @@
-
-19 lines (17 sloc) 732 Bytes
 operaciones = [linea.rstrip('\n') for linea in open('../Datos/operacion.csv')]
 retrasos =  [linea.rstrip('\n') for linea in open('../Datos/retraso.csv')]
 operaciones_validas = []

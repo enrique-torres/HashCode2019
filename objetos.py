@@ -26,7 +26,7 @@ class Photo:
         n_tags_first = len(self.get_num_tags())
         n_tags_second = len(second_photo.get_num_tags())
         n_tags_intersection = len([value for value in self.tags if value in second_photo.tags()])
-        return min(n_tags_first, n_tags_second, n_tags_intersection)        
+        return min(n_tags_first, n_tags_second, n_tags_intersection)
     
 class Slide:
     photos = []
@@ -43,14 +43,15 @@ class Slide:
     def get_tags(self):
         result = []
         for photo in self.photos:
-            result.append(photo.tags)
-        return set(salida)
+            result = result + photo.tags
+        return set(result)
 
     def get_interest(self, second_slide):
         n_tags_first = len(self.get_tags())
         n_tags_second = len(second_slide.get_tags())
         n_tags_intersection = len([value for value in self.get_tags() if value in second_slide.get_tags()])
-        return min(n_tags_first, n_tags_second, n_tags_intersection)
+        inter = min(n_tags_first-n_tags_intersection, n_tags_second-n_tags_intersection, n_tags_intersection)
+        return -1*(inter / max(n_tags_first, n_tags_second))
 
 class Slideshow:
     slides = []
@@ -62,6 +63,7 @@ class Slideshow:
         result = str(len(self.slides)) + '\n'
         for slide in self.slides:
             result = result + str(slide) + '\n'
+        print(result)
         return result
 
     def add_slide(self, slide):
@@ -69,7 +71,11 @@ class Slideshow:
 
     def write_solution(self, file_name):
         output = open(file_name, 'w')
-        output.write(str(self))
+        result = str(len(self.slides)) + '\n'
+        for slide in self.slides:
+            result = result + str(slide) + '\n'
+        output.write(result)
+        output.close()
 
 class Input:
     photos = []
@@ -86,9 +92,3 @@ class Input:
     
     def get_photos(self):
         return self.photos
-
-inputs = Input('b_lovely_landscapes.txt')
-slideshow = Slideshow()
-for photo in inputs.get_photos():
-    slideshow.add_slide(Slide([photo]))
-slideshow.write_solution('test.txt')
